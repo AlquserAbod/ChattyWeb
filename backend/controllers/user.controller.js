@@ -1,0 +1,15 @@
+import User from "../models/user.model.js";
+
+
+export const getUsersForSidebar = async (req,res) => {
+  try {
+    const loggedInUserId = req.user._id;
+
+    const filtredUsers = await User.find({_id: loggedInUserId}).select("-password");
+
+    return res.status(200).json(filtredUsers);
+  } catch (error) {
+    console.log("error in getUsersForSidebar controller :", error.message);
+    res.status(500).json("Internal server error")
+  }
+}

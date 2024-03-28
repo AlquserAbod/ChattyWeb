@@ -5,7 +5,7 @@ export const getUsersForSidebar = async (req,res) => {
   try {
     const loggedInUserId = req.user._id;
 
-    const filtredUsers = await User.find({_id: loggedInUserId}).select("-password");
+    const filtredUsers = await User.find({ _id: { $ne: loggedInUserId } }).select("-password");
 
     return res.status(200).json(filtredUsers);
   } catch (error) {

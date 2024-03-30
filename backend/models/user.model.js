@@ -24,6 +24,17 @@ const userSchema = new mongoose.Schema({
     type:String,
     default: ""
   }
+  // For now this app don't have friend system
+  // friends: [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   default: []
+  // }],
+  // pendingFriendships: [{
+  //   type: mongoose.Schema.Types.ObjectId,
+  //   ref: 'User',
+  //   default: []
+  // }],
 },{timestamps: true});
 
 const User = mongoose.model("User",userSchema);

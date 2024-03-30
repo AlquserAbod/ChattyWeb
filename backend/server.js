@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth.routes.js"
 import messageRoutes from "./routes/message.routes.js"
 import userRoutes from "./routes/user.routes.js"
 import connectToMongoDB from "./db/connecttoMongoDB.js";
+import friendsRoutes from "./routes/friends.routes.js";
 import cookieParser from "cookie-parser";
 
 import { app, server } from "./socket/socket.js";
@@ -21,6 +22,9 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
 app.use('/api/users', userRoutes);
+
+// For now this app don't have friend system
+//app.use('/api/friends', friendsRoutes);
 
 app.use(express.static(path.join(__dirname,"/frontend/dist")));
 

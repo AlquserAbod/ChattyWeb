@@ -1,16 +1,11 @@
 import Conversations from "./Conversations"
-import LogoutButton from "./LogoutButton"
-import SearchInput from "./SearchInput"
 
 const Sidebar = () => {
   return (
-    <div className="border-r border-slate-500 p-4 flex flex-col">
-      <SearchInput />
+    <div className="border-r max-sm:border-r-0 max-sm:border-b border-slate-500 p-4 flex flex-col overflow-auto max-sm:h-1/4">
 
-      <div className="divider px-3"></div>
       <Conversations />
       
-      <LogoutButton />
     </div>
   )
 }

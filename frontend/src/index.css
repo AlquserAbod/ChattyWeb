@@ -2,6 +2,12 @@
 @tailwind components;
 @tailwind utilities;
 
+@responsive {
+	.max-xs\\:some-class {
+	  @apply max-w-full; /* Apply max-width: 100%; */
+	}
+  }
+  
 body {
   background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url("/bg.jpg");
   background-repeat: no-repeat;

@@ -13,6 +13,7 @@ const Message = ({message}) => {
 	const profilePic = fromMe ? 
 		authUser.profilePic : 
 		selectedConversation?.participants.find(p => p.userId._id != authUser._id).userId.profilePic;
+		
 	const bubbleBgColor = fromMe ? "bg-blue-500" : "";
 	const shakeClass = message.shouldShake ? "shake" : ""
 

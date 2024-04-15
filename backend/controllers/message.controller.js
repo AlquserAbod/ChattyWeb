@@ -37,8 +37,8 @@ export const sendMessage = async (req, res) => {
 		
 		conversation = await conversation.populate('messages');
 
+		await newMessage.populate('senderId')
 		if (reciversocketId) {
-			await newMessage.populate('senderId')
 			io.to(reciversocketId).emit('newMessage', {conversation ,newMessage});
 		}
 

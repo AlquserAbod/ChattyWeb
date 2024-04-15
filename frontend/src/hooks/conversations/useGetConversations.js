@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import useFriends from "../../zustand/useFriends";
 import useConversations from "../../zustand/useConversations";
+import useConversation from "../../zustand/useConversation";
 
 const useGetConversations = () => {
 	const [loading, setLoading] = useState(false);
 	const {conversations, setConversations} = useConversations();
+	const { selectedConversation, setSelectedConversation } = useConversation();
 	const { friends } = useFriends();
 
 	useEffect(() => {
@@ -20,6 +22,12 @@ const useGetConversations = () => {
 				}
 
 				setConversations(data)
+
+				if(selectedConversation) {
+					if((data.find((conv) => conv._id == selectedConversation._id)) == undefined) {
+						setSelectedConversation(null)
+					}
+				}
 			} catch (error) {
 				toast.error(error.message);
 			} finally {

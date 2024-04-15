@@ -2,6 +2,8 @@ import bcrypt from 'bcryptjs';
 
 import User from "../models/user.model.js";
 import generateTokenAndSetCookie from '../utils/generateToken.js';
+import Conversation from '../models/conversation.model.js';
+import Message from '../models/message.model.js';
 
 export const signup = async (req, res) => {
   try {
@@ -167,6 +169,13 @@ export const updateProfile = async (req,res) => {
 export const deleteAccount = async (req,res) => {
   try {
     const user = req.user;
+
+    // Delete all messages
+    await Message.deleteMany({
+      $or: [{ senderId: user._id }, { receiverId: user._id }]
+    });
+    
+    await Conversation.deleteMany({ "participants.userId": user._id });
 
     await User.findByIdAndDelete(user._id);
 

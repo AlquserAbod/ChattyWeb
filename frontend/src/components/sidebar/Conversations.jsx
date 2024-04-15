@@ -18,6 +18,7 @@ const Conversations = () => {
     });
   
     filtered.sort((a, b) => {
+      if(!a.latestMessage || !b.latestMessage) return;
       const createdAtA = a.latestMessage.createdAt;
       const createdAtB = b.latestMessage.createdAt;
       return new Date(createdAtB) - new Date(createdAtA);

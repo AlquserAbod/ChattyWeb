@@ -1,5 +1,6 @@
 import NotificationTypes from "../../shared/enums/NotificationTypes.js";
 import Conversation from "../models/conversation.model.js";
+import Message from "../models/message.model.js";
 import User from "../models/user.model.js";
 import { getSocketId, io } from "../socket/socket.js";
 import { createNotification } from "../utils/createNotifiation.js";
@@ -99,6 +100,7 @@ export const deleteFriend = async (req,res) => {
 
         const friend = await User.findById(friendId);
 
+
         if (!friend) return res.status(404).json({ error: 'User not found' });
 
         if (!user.friends.includes(friendId)) return res.status(404).json({ error: 'This user is not one of your friends' });
@@ -111,6 +113,18 @@ export const deleteFriend = async (req,res) => {
 
         await user.save();
         await friend.save();
+
+        await Conversation.findOneAndDelete({
+            "participants.userId": { $all: [user._id, friend._id] }
+        });
+
+        await Message.deleteMany({
+            $or: [
+                { senderId: user._id, receiverId: friend._id },
+                { senderId: friend._id, receiverId: user._id }
+            ]
+        });
+
 
         createNotification(user,friend,NotificationTypes.RemoveFriendShip);
 

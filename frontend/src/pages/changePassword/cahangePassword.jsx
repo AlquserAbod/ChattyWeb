@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useChangePassword from "../../hooks/auth/useChangePassword";
 
 const ChangePassword = () => {
@@ -12,7 +12,12 @@ const ChangePassword = () => {
     await changePassword(password, confirmPassword);
   }
 
+  useEffect(() => {
+    document.title = "ChattyWeb: change password"
+  }, []);
+
   return (
+
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
       <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding 
       backdrop-filtre backdrop-blur-lg bg-opacity-0">

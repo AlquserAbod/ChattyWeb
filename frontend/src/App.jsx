@@ -8,13 +8,15 @@ import { useAuthContext } from './context/AuthContext'
 import Navbar from './layout/Navbar/navbar'
 import ChangePassword from './pages/changePassword/cahangePassword'
 import UpdateProfile from './pages/updateProfile/UpdateProfile'
+import StarBackground from './layout/Background/StarBackground'
 
 function App() {
   const { authUser } = useAuthContext();
 
   return (
     <>
-    
+      <StarBackground />
+
       <Navbar />
 
       <div className="p-4 h-screen flex items-center justify-center">

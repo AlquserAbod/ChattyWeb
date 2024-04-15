@@ -1,7 +1,6 @@
 import { Server } from "socket.io";
 import express from 'express';
 import  http from "http";
-import { log } from "console";
 
 const app = express();
 
@@ -14,9 +13,10 @@ const io = new Server(server, {
 });
 
 
-export const getReceiverSocketId = (receiverId) => {
+export const getSocketId = (receiverId) => {
     return userSocketMap[receiverId]
 }
+
 const userSocketMap = {};
 
 io.on('connection', (socket)=> {

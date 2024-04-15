@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import GenderCheckbox from "../../components/GenderCheckbox/GenderCheckbox"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useSignup from "../../hooks/auth/useSignup";
 
 const Signup = () => {
@@ -18,6 +18,9 @@ const Signup = () => {
     setInputs({...inputs,gender});
   }
 
+  useEffect(() => {
+    document.title = "ChattyWeb: signup"
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

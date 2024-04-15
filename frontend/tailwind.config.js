@@ -6,7 +6,9 @@ export default {
   ],
   theme: {
     extend: {
-      
+      screens: {
+        'xs': '320px', 
+      },
     },
   },
   // eslint-disable-next-line no-undef

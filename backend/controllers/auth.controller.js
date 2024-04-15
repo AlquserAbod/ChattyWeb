@@ -39,15 +39,9 @@ export const signup = async (req, res) => {
       generateTokenAndSetCookie(newUser._id,res);
       await newUser.save();
 
-      res.status(200).json({
-        _id: newUser._id,
-        fullName: newUser.fullName,
-        username: newUser.username,
-        gender: newUser.gender,
-        friends: newUser.friends,
-        pendingFriendships: newUser.pendingFriendships,
-        profilePic: newUser.profilePic
-      });
+      const { password: userPassword,__v, ...returnUserObject } = newUser.toObject();
+
+      res.status(200).json(returnUserObject);
     }else {
       return res.status(400).json({error: "Inalide user data"});
     }
@@ -70,16 +64,10 @@ export const login = async (req, res) => {
     
     generateTokenAndSetCookie(user._id,res);
 
+    const { password: userPassword,__v, ...returnUserObject } = user.toObject();
 
-    res.status(200).json({
-      _id: user._id,
-      fullName: user.fullName,
-      username: user.username,
-      gender: user.gender,
-      friends: user.friends,
-      pendingFriendships: user.pendingFriendships,
-      profilePic: user.profilePic
-    });
+    res.status(200).json(returnUserObject);
+
 
   } catch (error) {
     console.log("error in login controller :", error.message);
@@ -166,13 +154,9 @@ export const updateProfile = async (req,res) => {
 
     
     // Return success response
-    return res.status(200).json({
-      _id: user._id,
-      fullName: user.fullName,
-      username: user.username,
-      gender: user.gender,
-      profilePic: user.profilePic
-    });
+    const { password: userPassword,__v, ...returnUserObject } = user.toObject();
+
+    res.status(200).json(returnUserObject);
 
   } catch (error) {
     console.log("Error in updateProfile controller", error.message);

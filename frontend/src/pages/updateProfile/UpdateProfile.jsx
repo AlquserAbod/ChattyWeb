@@ -1,5 +1,5 @@
 import GenderCheckbox from "../../components/GenderCheckbox/GenderCheckbox"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import useUpdateProfile from "../../hooks/auth/useUpdateProfile";
 import { useAuthContext } from "../../context/AuthContext";
 
@@ -18,6 +18,9 @@ const UpdateProfile = () => {
     setInputs({...inputs,gender});
   }
 
+  useEffect(() => {
+    document.title = "ChattyWeb: update profile"
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {Link} from "react-router-dom";
 import useLogin from "../../hooks/auth/useLogin";
 
@@ -11,6 +11,10 @@ const Login = () => {
     e.preventDefault();
     await login(username, password);
   }
+  useEffect(() => {
+    document.title = "ChattyWeb: login"
+  }, []);
+
   return (
     <div className="flex flex-col items-center justify-center min-w-96 mx-auto">
       <div className="w-full p-6 rounded-lg shadow-md bg-gray-400 bg-clip-padding 

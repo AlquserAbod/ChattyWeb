@@ -2,20 +2,34 @@ import { useSocketContext } from "../../../context/socketContext";
 import { IoPersonRemoveSharp } from "react-icons/io5";
 import { IoMdChatbubbles } from "react-icons/io";
 import useConversation from "../../../zustand/useConversation"
-import useGetConversations from "../../../hooks/conversations/useGetConversations";
 import useRemoveFriend from "../../../hooks/friends/useRemoveFriend";
+import useConversations from "../../../zustand/useConversations";
+import { useAuthContext } from "../../../context/AuthContext";
 
 const FriendUser = ({friend, lastIdx}) => {
     const { onlineUsers } = useSocketContext();
 
     const {setSelectedConversation} = useConversation();
-    const { conversations } = useGetConversations();
+    const { conversations } = useConversations();
     const { removeFriend, loading } = useRemoveFriend();
+    const { authUser } = useAuthContext();
 
-    const conversation = conversations.filter(con => con._id == friend._id)[0];
     const isOnline = onlineUsers.includes(friend._id);
 
-  
+    function findConversationWithFriendAndAuthUser() {
+
+        for (const conversation of conversations) {
+          const participants = conversation.participants;
+          
+          if (participants.some(participant => participant.userId._id === friend._id) &&
+              participants.some(participant => participant.userId._id === authUser._id)) {
+            return conversation;
+          }
+        }
+      
+        return null;
+    }
+
     return (
         <div>
           <div className={`flex gap-2 items-center rounded p-2 py-1 ${!lastIdx && "my-4"} max-xs:flex-col max-xs:text-center`} >
@@ -45,8 +59,7 @@ const FriendUser = ({friend, lastIdx}) => {
                 <form method="dialog">
 
                     <button className="btn btn-circle btn-outline" onClick={() => {
-                         setSelectedConversation(conversation)
-                        console.log('ewf');
+                        setSelectedConversation(findConversationWithFriendAndAuthUser())
                     } }>
                         <IoMdChatbubbles />
                     </button>

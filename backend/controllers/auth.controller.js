@@ -4,6 +4,7 @@ import User from "../models/user.model.js";
 import generateTokenAndSetCookie from '../utils/generateToken.js';
 import Conversation from '../models/conversation.model.js';
 import Message from '../models/message.model.js';
+import Notification from '../models/notification.model.js';
 
 export const signup = async (req, res) => {
   try {
@@ -174,10 +175,16 @@ export const deleteAccount = async (req,res) => {
     await Message.deleteMany({
       $or: [{ senderId: user._id }, { receiverId: user._id }]
     });
+
     
     await Conversation.deleteMany({ "participants.userId": user._id });
 
     await User.findByIdAndDelete(user._id);
+
+    // Delete all notifications where the user is either sender or receiver
+    await Notification.deleteMany({
+      $or: [{ senderId: user._id }, { receiverId: user._id }]
+    });
 
     // logout from account 
     res.cookie("jwt", "", { maxAge: 0 });

@@ -9,9 +9,20 @@ import Navbar from './layout/Navbar/navbar'
 import ChangePassword from './pages/changePassword/cahangePassword'
 import UpdateProfile from './pages/updateProfile/UpdateProfile'
 import StarBackground from './layout/Background/StarBackground'
+import { useEffect } from 'react'
+import Cookies from "js-cookie";
 
 function App() {
-  const { authUser } = useAuthContext();
+  const { authUser,setAuthUser } = useAuthContext();
+
+  //if cookies dont have "jwt token" remove localstorage user
+  useEffect(() => {
+    const token = Cookies.get('jwt'); 
+    if (!token) {
+      localStorage.removeItem("chat-user");
+      setAuthUser(null)
+    }
+  }, []);
 
   return (
     <>

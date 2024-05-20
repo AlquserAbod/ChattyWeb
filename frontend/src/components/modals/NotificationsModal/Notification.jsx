@@ -2,10 +2,14 @@ import calculateNotificationTime from "../../../utils/calculateNotificationTime"
 import NotificationTypes from '@shared/enums/NotificationTypes';
 import useConversation from "../../../zustand/useConversation";
 import useFriends from "../../../zustand/useFriends";
+import useConversations from "../../../zustand/useConversations";
+import { useAuthContext } from "../../../context/AuthContext";
 
 const Notification = ({ notification , lastIdx}) => {
   const  { setSelectedConversation } = useConversation();
   const { friends } = useFriends();
+  const { conversations } = useConversations();
+  const { authUser } = useAuthContext();
 
   const handleOnClick = () => {
     const notificationsModal =  document.getElementById("notifications_modal");
@@ -16,7 +20,14 @@ const Notification = ({ notification , lastIdx}) => {
       requestsModal.showModal();
     }else if (notification.type == NotificationTypes.FriendRequestAccepted && friends.some(friend => friend._id === notification.senderId._id)) {
       notificationsModal.close();
-      setSelectedConversation(notification.senderId)
+      const conversation = conversations.find(conv =>
+        conv.participants.some(participant => participant.userId._id === notification.senderId._id) &&
+        conv.participants.some(participant => participant.userId._id === authUser._id)
+      );
+  
+      if (conversation) {
+        setSelectedConversation(conversation);
+      }
     }
 
     console.log(notification.type);

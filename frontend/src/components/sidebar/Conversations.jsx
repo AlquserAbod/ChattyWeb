@@ -25,6 +25,7 @@ const Conversations = () => {
     });
 
     setFiltredConversations(filtered);
+
   },[authUser._id, conversations, searchConversation]);
 
 

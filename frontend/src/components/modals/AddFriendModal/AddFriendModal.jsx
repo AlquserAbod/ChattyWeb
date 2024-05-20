@@ -28,6 +28,7 @@ const AddFriendModal = () => {
               user={user} key={index} 
               lastIdx={index === users.length - 1}
             />
+            
           )) : (
             <div className="text-center font-bold">
               {users.length <= 0 
